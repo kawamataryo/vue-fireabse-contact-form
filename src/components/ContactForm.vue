@@ -78,6 +78,7 @@ export default {
           })
           .catch(err => {
             console.error(err);
+            this.showAlertError();
           })
           .finally(() => {
             this.loading = false;

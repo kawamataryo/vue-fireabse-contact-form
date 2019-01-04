@@ -10,4 +10,3 @@ const config = {
 };
 firebase.initializeApp(config);
 export const functions = firebase.functions();
-

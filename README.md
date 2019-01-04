@@ -20,7 +20,9 @@ yarn run build
 yarn run test
 ```
 
-### Lints and fixes files
+### functionsでの環境変数の設定
 ```
-yarn run lint
+$ firebase functions:config:set gmail.email="メールサーバーとして使うgmailのユーザーID" gmail.password="メールサーバーとして使うgmailのパスワード" admin.email="問い合わせ内容を送信する管理者アドレス" 
 ```
+
+
