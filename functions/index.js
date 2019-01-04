@@ -1,5 +1,4 @@
 const functions = require("firebase-functions");
-const cors = require("cors")({ origin: true });
 const nodemailer = require("nodemailer");
 const gmailEmail = functions.config().gmail.email;
 const gmailPassword = functions.config().gmail.password;
@@ -52,34 +51,32 @@ ${data.contents}
 `;
 };
 
-exports.mailer = functions.https.onCall((data, context) => {
-  cors(data, context, () => {
-    // メール設定
-    let adminMail = {
-      from: gmailEmail,
-      to: adminEmail,
-      subject: "ホームページお問い合わせ",
-      text: adminContents(data)
-    };
-    let userMail = {
-      from: gmailEmail,
-      to: data.email,
-      subject: "お問い合わせありがとうございます [山本眼科]",
-      text: userContents(data)
-    };
+exports.sendMail = functions.https.onCall((data, context) => {
+  // メール設定
+  let adminMail = {
+    from: gmailEmail,
+    to: adminEmail,
+    subject: "ホームページお問い合わせ",
+    text: adminContents(data)
+  };
+  let userMail = {
+    from: gmailEmail,
+    to: data.email,
+    subject: "お問い合わせありがとうございます [山本眼科]",
+    text: userContents(data)
+  };
 
-    // 管理者へのメール送信
-    mailTransport.sendMail(adminMail, (err, info) => {
+  // 管理者へのメール送信
+  mailTransport.sendMail(adminMail, (err, info) => {
+    if (err) {
+      return console.error(`admin send failed. ${err}`);
+    }
+    // ユーザーへの自動返信メール送信
+    mailTransport.sendMail(userMail, (err, info) => {
       if (err) {
-        return console.error(`admin send failed. ${err}`);
+        return console.error(`user send failed. ${err}`);
       }
-      // ユーザーへの自動返信メール送信
-      mailTransport.sendMail(userMail, (err, info) => {
-        if (err) {
-          return console.error(`user send failed. ${err}`);
-        }
-        return console.log("admin and user success");
-      });
+      return console.log("admin and user success");
     });
   });
 });
