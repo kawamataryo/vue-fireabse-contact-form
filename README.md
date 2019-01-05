@@ -1,24 +1,7 @@
-# contact-form
+# vue.jsとfirebase functionsによる問い合わせフォーム作成デモ
 
-## Project setup
-```
-yarn install
-```
-
-### Compiles and hot-reloads for development
-```
-yarn run serve
-```
-
-### Compiles and minifies for production
-```
-yarn run build
-```
-
-### Run your tests
-```
-yarn run test
-```
+## 出来ること
+firebase hostingでvue.js製のSPAをレンダリングして、問い合わせフォーム内でFirebase functionsを呼び、メール通知を行う
 
 ### functionsでの環境変数の設定
 ```
